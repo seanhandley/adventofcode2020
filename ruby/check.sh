@@ -15,13 +15,10 @@ function test {
   popd > /dev/null
 }
 
-test 1 1
-test 1 2
-
-# for i in {1..12}
-# do
-#   for j in {1..2}
-#   do
-#     test $i $j
-#   done
-# done
+for i in {1..2}
+do
+  for j in {1..2}
+  do
+    test $i $j
+  done
+done

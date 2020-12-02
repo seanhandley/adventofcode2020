@@ -27,9 +27,7 @@
 # Of course, your expense report is much larger. Find the two entries that sum to 2020; what do you get if you multiply them together?
 
 def check_report(input, number, total)
-  input.combination(number).each do |tuple|
-    return tuple.reduce(:*) if tuple.reduce(:+) == total
-  end
+  input.combination(number).detect { |tuple| tuple.sum == total }.reduce(:*)
 end
 
 if __FILE__ == $0
