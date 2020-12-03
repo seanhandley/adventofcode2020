@@ -63,7 +63,7 @@ MAX_WIDTH  = map.first.length
 MAX_HEIGHT = map.length
 TREE       = "#".freeze
 
-def go(x_step, y_step)
+def toboggan(x_step, y_step)
   x, y, trees = 0, 0, 0
 
   while y < MAX_HEIGHT
@@ -76,5 +76,5 @@ def go(x_step, y_step)
 end
 
 if __FILE__ == $0
-  puts go(3, 1)
+  puts toboggan(3, 1)
 end
