@@ -18,11 +18,6 @@
 require_relative "./advent3.1"
 
 if __FILE__ == $0
-  puts [
-    toboggan(1, 1),
-    toboggan(3, 1),
-    toboggan(5, 1),
-    toboggan(7, 1),
-    toboggan(1, 2),
-  ].reduce(:*)
+  puts [[1, 1], [3, 1], [5, 1], [7, 1], [1, 2]].
+    map { |x, y| toboggan(x, y) }.reduce(:*)
 end
