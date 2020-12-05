@@ -41,16 +41,14 @@
 #
 # As a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?
 
+DIRECTION_TO_BIN = { "F" => "0", "B" => "1", "L" => "0", "R" => "1" }.freeze
+
 def passes
-  @passes ||= STDIN.read.split
+  @passes ||= STDIN.read.split.map { |pass| pass.gsub(/\w/, DIRECTION_TO_BIN) }
 end
 
 def seat_ids
-  @seat_ids ||= passes.map do |pass|
-    row = pass[0,7].gsub("F", "0").gsub("B", "1").to_i(2)
-    col = pass[7,3].gsub("L", "0").gsub("R", "1").to_i(2)
-    row * 8 + col
-  end
+  @seat_ids ||= passes.map { |pass| pass[0, 7].to_i(2) * 8 + pass[7, 3].to_i(2) }
 end
 
 if __FILE__ == $0

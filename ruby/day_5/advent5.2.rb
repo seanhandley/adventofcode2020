@@ -12,9 +12,7 @@
 require_relative "./advent5.1"
 
 def find_seat
-  seat_ids.sort.each_cons(2) do |a, b|
-    return a + 1 unless b - a == 1
-  end
+  seat_ids.sort.each_cons(2).detect { |a, b| b - a == 2 }.first + 1
 end
 
 if __FILE__ == $0
