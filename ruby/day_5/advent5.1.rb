@@ -38,26 +38,17 @@
 # BFFFBBFRRR: row 70, column 7, seat ID 567.
 # FFFBBBFRRR: row 14, column 7, seat ID 119.
 # BBFFBBFRLL: row 102, column 4, seat ID 820.
-#,
+#
 # As a sanity check, look through your list of boarding passes. What is the highest seat ID on a boarding pass?
 
 def passes
-  @passes ||= STDIN.read.split.map(&:chars)
-end
-
-def resolve_position(directions, lowest: 0, highest:, lower_half:)
-  directions.inject(0) do |position, direction|
-    halfway  = ((highest - lowest) / 2.0).ceil
-    position = (direction == lower_half) ? highest -= halfway : lowest += halfway
-  end
+  @passes ||= STDIN.read.split
 end
 
 def seat_ids
   @seat_ids ||= passes.map do |pass|
-    row_directions, col_directions = pass.each_slice(7).to_a
-    row = resolve_position(row_directions, highest: 127, lower_half: "F")
-    col = resolve_position(col_directions, highest: 7,   lower_half: "L")
-
+    row = pass[0,7].gsub("F", "0").gsub("B", "1").to_i(2)
+    col = pass[7,3].gsub("L", "0").gsub("R", "1").to_i(2)
     row * 8 + col
   end
 end
