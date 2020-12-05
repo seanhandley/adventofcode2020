@@ -47,16 +47,14 @@ end
 
 def resolve_position(directions, lowest: 0, highest:, lower_half:)
   directions.inject(0) do |position, direction|
-    halfway = ((highest - lowest) / 2.0).ceil
-    direction == lower_half ? highest -= halfway : lowest += halfway
-    position = lowest
+    halfway  = ((highest - lowest) / 2.0).ceil
+    position = (direction == lower_half) ? highest -= halfway : lowest += halfway
   end
 end
 
 def seat_ids
   @seat_ids ||= passes.map do |pass|
-    row_directions = pass.first(7)
-    col_directions = pass.last(3)
+    row_directions, col_directions = pass.each_slice(7).to_a
     row = resolve_position(row_directions, highest: 127, lower_half: "F")
     col = resolve_position(col_directions, highest: 7,   lower_half: "L")
 
@@ -65,5 +63,5 @@ def seat_ids
 end
 
 if __FILE__ == $0
-  p seat_ids.max
+  puts seat_ids.max
 end
