@@ -70,5 +70,5 @@ def bags_containing(color, target)
 end
 
 if __FILE__ == $0
-  puts bags.keys.select { |color| bags_containing(color, "shiny gold") }.count
+  puts bags.keys.count { |color| bags_containing(color, "shiny gold") }
 end

@@ -30,10 +30,19 @@
 
 require_relative "./advent7.1"
 
-def total_bags_inside(color)
-  return 1 if bags[color].contains.empty?
-  return 1 + bags[color].contains.sum { |b, q| total_bags_inside(b) * q }
+def debug(color, indent=0)
+  bags_inside = bags[color].contains.map { |color, quantity| "#{quantity} #{color} bags" }.join(", ")
+  bags_inside = "no other bags" if bags_inside.empty?
+  puts "#{'  ' * indent}<#{color} bags contain #{bags_inside}>"
 end
+
+def total_bags_inside(color, indent=0)
+  debug(color, indent) if DEBUG
+  return 1 if bags[color].contains.empty?
+  return 1 + bags[color].contains.sum { |b, q| total_bags_inside(b, indent + 1) * q }
+end
+
+DEBUG = false
 
 if __FILE__ == $0
   puts total_bags_inside("shiny gold") - 1
