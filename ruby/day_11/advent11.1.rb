@@ -4,19 +4,20 @@ def starting_seats
   @starting_seats ||= STDIN.read.split("\n").map(&:chars)
 end
 
+def direction_offsets
+  @direction_offsets ||= [-1, 0, 1].repeated_permutation(2).to_a - [[0, 0]]
+end
+
+def out_of_bounds?(seats, x, y)
+  [x < 0, y < 0, x >= seats.first.count, y >= seats.count].any?
+end
+
 def neighbours(seats, x, y)
-  max_x = seats.first.count
-  max_y = seats.count
-  n = []
-  n << seats.dig(y, x - 1) if x > 0
-  n << seats.dig(y, x + 1) if x < max_x
-  n << seats.dig(y - 1, x) if y > 0
-  n << seats.dig(y + 1, x) if y < max_y
-  n << seats.dig(y - 1, x - 1) if x > 0 && y > 0
-  n << seats.dig(y - 1, x + 1) if x < max_x && y > 0
-  n << seats.dig(y + 1, x - 1) if y < max_y && x > 0
-  n << seats.dig(y + 1, x + 1) if y < max_y && x < max_x
-  n.compact.group_by { |g| g }
+  direction_offsets.each_with_object([]) do |(offset_x, offset_y), n|
+    unless out_of_bounds?(seats, x + offset_x, y + offset_y)
+      n << seats.dig(y + offset_y, x + offset_x) 
+    end
+  end.compact.group_by { |g| g }
 end
 
 def min_occupied
