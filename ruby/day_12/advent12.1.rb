@@ -37,23 +37,23 @@
 #
 # Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
 
-@x, @y, @degrees = 0, 0, 90
+@ship_x, @ship_y, @heading = 0, 0, 90
 
-def directions
-  @directions ||= STDIN.readlines.map { |line| [line[0], line[1..].to_i] }
+def instructions
+  @instructions ||= STDIN.readlines.map { |line| [line[0], line[1..].to_i] }
 end
 
 def manhattan
-  @x.abs + @y.abs
+  @ship_x.abs + @ship_y.abs
 end
 
 def travel!
-  directions.each do |instruction, value|
+  instructions.each do |instruction, value|
     case instruction
-    when "N" then north(value)
-    when "S" then south(value)
-    when "W" then west(value)
-    when "E" then east(value)
+    when "N" then move_on_y_axis(-value)
+    when "S" then move_on_y_axis(value)
+    when "W" then move_on_x_axis(-value)
+    when "E" then move_on_x_axis(value)
     when "F" then forward(value)
     when "L" then rotate(-value)
     when "R" then rotate(value)
@@ -61,33 +61,20 @@ def travel!
   end
 end
 
-def forward(value)
-  case @degrees
-  when 0   then @y -= value
-  when 90  then @x += value
-  when 180 then @y += value
-  when 270 then @x -= value
+def move_on_y_axis(distance) @ship_y += distance end
+def move_on_x_axis(distance) @ship_x += distance end
+
+def forward(distance)
+  case @heading
+  when 0   then move_on_y_axis(-distance)
+  when 90  then move_on_x_axis(distance)
+  when 180 then move_on_y_axis(distance)
+  when 270 then move_on_x_axis(-distance)
   end
 end
 
-def rotate(value)
-  @degrees = (@degrees + value) % 360
-end
-
-def north(value)
-  @y -= value
-end
-
-def south(value)
-  @y += value
-end
-
-def west(value)
-  @x -= value
-end
-
-def east(value)
-  @x += value
+def rotate(degrees)
+  @heading = (@heading + degrees) % 360
 end
 
 if __FILE__ == $0

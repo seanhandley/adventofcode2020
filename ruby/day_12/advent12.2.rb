@@ -31,32 +31,19 @@ require_relative "./advent12.1"
 
 @waypoint_x, @waypoint_y = 10, -1
 
-def rotate(n)
-  (n % 360 / 90).times do
+def move_on_y_axis(distance) @waypoint_y += distance end
+def move_on_x_axis(distance) @waypoint_x += distance end
+
+def forward(distance)
+  @ship_x += @waypoint_x * distance
+  @ship_y += @waypoint_y * distance
+end
+
+def rotate(degrees)
+  (degrees % 360 / 90).times do
     @waypoint_x, @waypoint_y = @waypoint_y, @waypoint_x
-    @waypoint_x = 0 - @waypoint_x
+    @waypoint_x = -@waypoint_x
   end
-end
-
-def forward(value)
-  @x += @waypoint_x * value
-  @y += @waypoint_y * value
-end
-
-def north(value)
-  @waypoint_y -= value
-end
-
-def south(value)
-  @waypoint_y += value
-end
-
-def west(value)
-  @waypoint_x -= value
-end
-
-def east(value)
-  @waypoint_x += value
 end
 
 if __FILE__ == $0
