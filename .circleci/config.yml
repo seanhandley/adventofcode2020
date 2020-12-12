@@ -15,4 +15,4 @@ jobs:
       - ruby/bundle-install
       - run:
           name: Check Outputs
-          command: ./check.sh
+          command: cd ruby && bash check.sh
