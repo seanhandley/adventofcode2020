@@ -1,5 +1,7 @@
 #!/usr/bin/env sh
 
+RET=0
+
 function test {
   pushd "day_$1" > /dev/null
   FILE="output$1.$2.txt"
@@ -9,7 +11,7 @@ function test {
 
   if [[ $EXPECTED == $ACTUAL ]]
   then echo "DAY $1.$2 OK"
-  else echo "DAY $1.$2 FAIL"; echo "EXPECTED: \n'$EXPECTED'"; echo "ACTUAL: \n'$ACTUAL'"
+  else echo "DAY $1.$2 FAIL"; echo "EXPECTED: \n'$EXPECTED'"; echo "ACTUAL: \n'$ACTUAL'"; RET=-1
   fi
 
   popd > /dev/null
@@ -22,3 +24,5 @@ do
     test $i $j
   done
 done
+
+exit $RET
