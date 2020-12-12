@@ -31,42 +31,35 @@ require_relative "./advent12.1"
 
 @waypoint_x, @waypoint_y = 10, -1
 
-def swap
-  temp = @waypoint_x
-  @waypoint_x = @waypoint_y
-  @waypoint_y = temp
-end
-
 def rotate(n)
-  n.times do
-    swap
+  (n % 360 / 90).times do
+    @waypoint_x, @waypoint_y = @waypoint_y, @waypoint_x
     @waypoint_x = 0 - @waypoint_x
   end
 end
 
-def travel
-  directions.each do |instruction, value|
-    case instruction
-    when "N"
-      @waypoint_y -= value
-    when "S"
-      @waypoint_y += value
-    when "W"
-      @waypoint_x -= value
-    when "E"
-      @waypoint_x += value
-    when "F"
-      @x += @waypoint_x * value
-      @y += @waypoint_y * value
-    when "R"
-      rotate(value / 90)
-    when "L"
-      rotate((360 - value) / 90)
-    end
-  end
+def forward(value)
+  @x += @waypoint_x * value
+  @y += @waypoint_y * value
+end
+
+def north(value)
+  @waypoint_y -= value
+end
+
+def south(value)
+  @waypoint_y += value
+end
+
+def west(value)
+  @waypoint_x -= value
+end
+
+def east(value)
+  @waypoint_x += value
 end
 
 if __FILE__ == $0
-  travel
+  travel!
   p manhattan
 end

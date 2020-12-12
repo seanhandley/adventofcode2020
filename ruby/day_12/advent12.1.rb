@@ -26,7 +26,7 @@
 # F11
 #
 # These instructions would be handled as follows:
-
+#
 # F10 would move the ship 10 units east (because the ship starts by facing east) to east 10, north 0.
 # N3 would move the ship 3 units north to east 10, north 3.
 # F7 would move the ship another 7 units east (because the ship is still facing east) to east 17, north 3.
@@ -37,27 +37,36 @@
 #
 # Figure out where the navigation instructions lead. What is the Manhattan distance between that location and the ship's starting position?
 
-@x, @y = 0, 0
-@degrees = 90
+@x, @y, @degrees = 0, 0, 90
 
 def directions
-  @directions ||= STDIN.read.split("\n").map { |line| [line.chars[0], line.chars[1..].join.to_i] }
+  @directions ||= STDIN.readlines.map { |line| [line[0], line[1..].to_i] }
 end
 
 def manhattan
   @x.abs + @y.abs
 end
 
-def move(value)
+def travel!
+  directions.each do |instruction, value|
+    case instruction
+    when "N" then north(value)
+    when "S" then south(value)
+    when "W" then west(value)
+    when "E" then east(value)
+    when "F" then forward(value)
+    when "L" then rotate(-value)
+    when "R" then rotate(value)
+    end
+  end
+end
+
+def forward(value)
   case @degrees
-  when 0
-    @y -= value
-  when 90
-    @x += value
-  when 180
-    @y += value
-  when 270
-    @x -= value
+  when 0   then @y -= value
+  when 90  then @x += value
+  when 180 then @y += value
+  when 270 then @x -= value
   end
 end
 
@@ -65,28 +74,23 @@ def rotate(value)
   @degrees = (@degrees + value) % 360
 end
 
-def travel
-  directions.each do |instruction, value|
-    case instruction
-    when "N"
-      @y -= value
-    when "S"
-      @y += value
-    when "W"
-      @x -= value
-    when "E"
-      @x += value
-    when "F"
-      move(value)
-    when "L"
-      rotate(-value)
-    when "R"
-      rotate(value)
-    end
-  end
+def north(value)
+  @y -= value
+end
+
+def south(value)
+  @y += value
+end
+
+def west(value)
+  @x -= value
+end
+
+def east(value)
+  @x += value
 end
 
 if __FILE__ == $0
-  travel
+  travel!
   p manhattan
 end

@@ -1,5 +1,7 @@
 # Advent of Code 2020
 
+[![CircleCI](https://circleci.com/gh/seanhandley/adventofcode2020.svg?style=svg)](https://circleci.com/gh/seanhandley/adventofcode2020)
+
 ```
              *
             /.\
