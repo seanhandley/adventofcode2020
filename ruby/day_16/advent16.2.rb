@@ -26,7 +26,7 @@
 require_relative "./advent16.1"
 
 def valid_tickets
-  nearby_tickets.reject do |ticket|
+  @valid_tickets ||= nearby_tickets.reject do |ticket|
     ticket.any? { |val| invalid_for_all_fields?(val) }
   end
 end
@@ -46,11 +46,10 @@ def all_valid_positions
 end
 
 def valid_ordering
-  orderings = all_valid_positions
-  orderings.each_with_index.each_with_object({}) do |((field, positions), i), result|
+  all_valid_positions.each_with_object({}) do |(field, positions), result|
     num = positions.first
     result[field] = num
-    orderings.each { |f, p| p.delete(num) }
+    all_valid_positions.each { |_field, positions| positions.delete(num) }
   end
 end
 
