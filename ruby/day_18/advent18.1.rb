@@ -49,9 +49,9 @@ end
 # Operator precedence is baked into the kernel but we can get
 # around this by redefining arithmetic operators.
 #
-# The `%` operator has the same precedence as `*`.
+# The `/` operator has the same precedence as `*`.
 def replacement_operator
-  "%"
+  "/"
 end
 
 def calculate
