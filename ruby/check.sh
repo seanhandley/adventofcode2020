@@ -25,4 +25,6 @@ do
   done
 done
 
+test 25 1
+
 exit $RET
